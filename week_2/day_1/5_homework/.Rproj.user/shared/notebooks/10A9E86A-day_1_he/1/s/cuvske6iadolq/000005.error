@@ -1,0 +1,1 @@
+{"frames":[],"message":"Error: unexpected symbol in:\n\"left_join(customer_base, card_base, by = \"Cust_ID)\ncard_base <- read_csv(\"data\"\n"}
