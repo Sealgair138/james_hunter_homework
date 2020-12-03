@@ -1,6 +1,6 @@
 {
     "id": "572A7720",
-    "path": "~/codeclan_work/homework_JH/week_2/day_1/5_homework/day_1_he.Rmd",
+    "path": "~/homework_JH/week_2/day_1/5_homework/day_1_he.Rmd",
     "project_path": "day_1_he.Rmd",
     "type": "r_markdown",
     "hash": "2777559207",
@@ -12,15 +12,15 @@
     "properties": {
         "tempName": "Untitled1",
         "chunk_output_type": "inline",
-        "cursorPosition": "47,11",
-        "scrollLine": "37"
+        "cursorPosition": "38,49",
+        "scrollLine": "22"
     },
     "folds": "",
     "lastKnownWriteTime": 1606818540,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1606818540920,
+    "last_content_update": 1606842736107,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -1,5 +1,0 @@
-"0","card_base <- read_csv(""data/CardBase.csv""), clean_names()"
-"2","Error: unexpected symbol in:
-""left_join(customer_base, card_base, by = ""Cust_ID)
-card_base <- read_csv(""data""
-"

@@ -1,0 +1,60 @@
+---
+title: "weather_homework"
+output: html_notebook
+---
+
+
+
+
+
+
+From the matrix you just made select:
+The third day of the second week
+The whole second week
+The first, third and fifth days in both weeks.
+Write a function that pre-appends “The answer is:” to any character input, while for numeric input, it either just returns the number for numbers less than 10, or divides the number by 10 for numbers greater than 10. For anything else return “Invalid input”.
+
+Write a function which checks if two vectors have the same elements.
+
+If they have the same elements in the same order, return “Exactly the same”
+If they have the same elements but in a different order, return “The same”
+If they don’t have the same elements, return “Different”.
+ Hints
+You can check if two vectors have the same elements but in a different order by using sort to sort each vector first and then checking if they are equal.
+Have a look at the all() function
+
+question 1 Find the weather forecast for the next three days online. Create a list of lists in which each inner list should be labelled with the name of the day of the week. Each inner list should contain named elements telling you the temperature, chance of rain and wind speed.
+```{r}
+three_day_forcast <- list(
+  "thursday" = list(
+    temperature = 4, chance_of_rain = 50, wind_speed = 4), 
+  "friday" = list(
+    temperature = 6, chance_of_rain = 80, wind_speed  = 16), 
+  "saturday" = list(
+    temperature = 6, chance_of_rain = 20, wind_speed = 9)
+  ) 
+
+```
+
+question 2 Using the list you’ve just made find:
+
+The chance of rain tomorrow
+The wind speed on the day after tomorrow
+The temperature tomorrow.
+```{r}
+three_day_forcast$thursday$chance_of_rain
+```
+```{r}
+three_day_forcast$friday$wind_speed
+```
+```{r}
+three_day_forcast$thursday$temperature
+```
+
+question 3 Find a 14 day forecast online and create a matrix of the forecasts for temperature, where each week is one row and columns correspond to days.
+You will want to give a name to the matrix you create.
+
+```{r}
+temp_forecast <- matrix(4:8, nrow = 2, ncol = 7)
+```
+
