@@ -1,0 +1,62 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(stringr)
+```
+
+```{r}
+meteorite_landings <- read_csv("meteorite_landings.csv")
+meteorite_landings <- clean_names(meteorite_landings)
+```
+
+```{r}
+meteorite_landings
+```
+```{r}
+
+```
+
+```{r}
+split_geo <- meteorite_landings %>% 
+  separate(geo_location, c("latitude", "longitude"), sep = ",")
+```
+```{r}
+split_geo
+```
+```{r}
+bracket_lat <- "[(]"
+```
+```{r}
+bracket_long <- "[)]"
+```
+```{r}
+split_geo %>% 
+  str_detect(bracket_lat) %>% 
+  str_remove_all(bracket_lat) %>% 
+  str_detect(bracket_lat) 
+
+```
+```{r}
+split_geo %>% 
+  
+```
+
+
+
+
+
+
+# replace all NA values as NA
+total_charges_replaced <- comms_data_imputed_median %>%
+  mutate(total_charges = na_if(total_charges, "na")) %>%
+  mutate(total_charges = na_if(total_charges, "N/A"))
+
+# check if the NAs are being found now
+total_charges_replaced %>%
+  filter(is.na(total_charges))

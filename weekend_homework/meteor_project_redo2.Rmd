@@ -1,0 +1,58 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+library(stringr)
+```
+
+```{r}
+meteorite_landings <- read_csv("meteorite_landings.csv")
+meteorite_landings <- clean_names(meteorite_landings)
+```
+
+```{r}
+geo_removed_brackets <- meteorite_landings %>% 
+  mutate(geo_location = str_replace_all(geo_location, "\\(|\\)", ""))
+```
+
+
+```{r}
+split_geo <- geo_removed_brackets %>% 
+  separate(geo_location, c("latitude", "longitude"), sep = ",")
+```
+```{r}
+split_geo
+```
+```{r}
+split_geo %>% 
+  summarise(count = sum(is.na(latitude)))
+```
+
+```{r}
+split_geo %>% 
+  summarise(count = sum(is.na(longitude)))
+```
+
+```{r}
+numeric_long_lat <- split_geo %>% 
+  mutate(longitude = as.numeric(longitude)) %>% 
+  mutate(latitude = as.numeric(latitude))
+
+numeric_long_lat
+```
+```{r}
+numeric_long_lat %>% 
+  filter(is.na(latitude))
+  
+```
+```{r}
+numeric_long_lat[is.na(latitude)] = 0
+```
+
+
+

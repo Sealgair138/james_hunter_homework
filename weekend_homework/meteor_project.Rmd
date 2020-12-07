@@ -1,0 +1,78 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+```
+
+```{r}
+meteorite_landings <- read_csv("meteorite_landings.csv")
+meteorite_landings <- clean_names(meteorite_landings)
+```
+
+```{r}
+head(meteorite_landings)
+view(meteorite_landings)
+```
+
+```{r}
+split_geo <- meteorite_landings %>% 
+  separate(geo_location, c("latitude", "longitude"), sep = ",")
+
+split_geo
+```
+```{r}
+split_geo %>% 
+  filter(is.na(longitude)) %>% 
+  filter(is.na(latitude))
+```
+```{r}
+long_lat_replaced_na <- split_geo %>% 
+  mutate(longitude = coalesce(longitude, "0")) %>% 
+  mutate(latitude = coalesce(latitude, "0"))
+
+long_lat_replaced_na
+```
+```{r}
+long_lat_replaced_na %>% 
+  filter(is.na(longitude)) %>% 
+  filter(is.na(latitude))
+```
+
+```{r}
+long_lat_replaced_na%>% 
+  summarise(count = sum(is.na(longitude)))
+```
+```{r}
+long_lat_replaced_na %>% 
+  summarise(count = sum(is.na(latitude)))
+```
+
+```{r}
+long_lat_as_numeric <- long_lat_replaced_na %>% 
+  filter(!is.na(longitude)) %>% 
+  filter(!is.na(latitude))
+```
+```{r}
+long_lat_as_numerical <- long_lat_as_numeric %>% 
+  mutate(longitude = as.numeric(longitude)) %>% 
+  mutate(latitude = as.numeric(latitude))
+
+long_lat_as_numerical
+```
+
+```{r}
+long_lat_as_numerical %>% 
+  summarise(count = sum(is.na(latitude)))
+```
+ 
+```{r}
+long_lat_as_numerical %>% 
+  summarise(count = sum(is.na(longitude)))
+```
+ 
+ 
