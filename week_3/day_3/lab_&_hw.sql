@@ -75,7 +75,7 @@ SELECT
 FROM employees
 GROUP BY country
 HAVING COUNT(id) > 30
-ORDER BY avg_salary DESC;
+ORDER BY avg_salary DESC ;
 
 -- MVP
 -- Q9
@@ -98,7 +98,7 @@ SELECT
 FROM employees AS emp 
 	INNER JOIN pay_details AS payd
 ON emp.pay_detail_id = payd.id
-WHERE payd.local_tax_code IS NULL
+WHERE payd.local_tax_code IS NULL;
 
 -- MVP
 -- Q11
