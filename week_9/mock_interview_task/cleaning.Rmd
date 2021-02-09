@@ -1,0 +1,129 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(janitor)
+```
+
+```{r}
+health_board <- read_csv("data/opendata_inc9418_hb.csv") %>% clean_names()
+geo_codes_labels <- read_csv("data/geography_codes_and_labels_hb2014_01042019.csv") %>% clean_names()
+region <- read_csv("data/opendata_inc9418_region.csv") %>% clean_names()
+scotland <- read_csv("data/opendata_inc9418_scotland.csv") %>% clean_names()
+```
+
+```{r}
+health_board <- health_board %>% 
+  select(hb, cancer_site, sex, year)
+
+health_board <- health_board %>% 
+  filter(sex == "Male" | sex == "Female")
+
+health_board <- health_board %>% 
+  filter(cancer_site != "All cancer types")
+
+```
+
+```{r}
+geo_codes <- geo_codes_labels %>% 
+  select(hb, hb_name)
+```
+
+```{r}
+geo_health <- inner_join(geo_codes, health_board, by = "hb")
+```
+
+```{r}
+region <- region %>% 
+  filter(cancer_site != "All cancer types")
+```
+```{r}
+region <- region %>% 
+  filter(sex != "All")
+```
+```{r}
+region <- region %>% 
+  select(region, cancer_site, sex, year, incidences_age_under5, incidences_age5to9, incidences_age10to14, incidences_age15to19, incidences_age20to24, incidences_age25to29, incidences_age30to34, incidences_age35to39, incidences_age40to44, incidences_age45to49, incidences_age50to54, incidences_age55to59, incidences_age60to64, incidences_age65to69, incidences_age70to74, incidences_age75to79, incidences_age80to84, incidences_age85to89, incidences_age90and_over)
+  
+```
+```{r}
+region <- region %>% 
+  rename(under_5 = incidences_age_under5, age_10_to_14 = incidences_age10to14, age_20_to_24 = incidences_age20to24, age_30_to_34 = incidences_age30to34, age_40_to_44 = incidences_age40to44, age_50_to_54 = incidences_age50to54, age_60_to_64 = incidences_age60to64, age_70_to_74 = incidences_age70to74, age_80_to_84 = incidences_age80to84, age_90_plus = incidences_age90and_over, age_5_to_9 = incidences_age5to9, age_15_to_19 = incidences_age15to19, age_25_to_29 = incidences_age25to29,age_35_to_39 = incidences_age35to39, age_45_to_49 = incidences_age45to49, age_55_to_59 = incidences_age55to59, age_65_to_69 = incidences_age65to69, age_75_to_79 = incidences_age75to79, age_85_to_89 = incidences_age85to89)
+```
+
+```{r}
+geo_health <- geo_health %>% 
+  filter(hb_name == "NHS Borders")
+```
+
+```{r}
+region <- region %>% 
+  filter(region == "South East of Scotland")
+```
+
+```{r}
+geo_health %>%
+  group_by(cancer_site) %>% 
+  ggplot() +
+  aes(y = cancer_site, x = year) +
+  geom_line() +
+  guides(colour = F)
+```
+```{r}
+region <- region %>% 
+pivot_longer(
+  cols = starts_with("age"),
+  names_to = "age_groups",
+)
+```
+
+```{r}
+```
+
+
+```{r}
+cancer_line <- na.omit(region)
+```
+
+```{r}
+cancer_line %>% 
+  arrange(year) %>% 
+  group_by(year) %>% 
+  summarise(value = mean(value)) %>% 
+  group_by(year) %>%  
+  ggplot() +
+  aes(x = year, y = value) +
+  geom_line() +
+  scale_x_continuous(breaks = seq(from = 1994, to = 2018)) +
+  scale_y_continuous()
+```
+
+```{r}
+region %>% 
+  filter(cancer_site == "Bladder") %>% 
+  ggplot() +
+  aes(y = value, fill = age_groups) +
+  geom_histogram() +
+  scale_x_continuous(breaks = seq(from = 1994, to = 2018))
+  
+```
+
+```{r}
+region %>% 
+  ggplot() +
+  aes(y = cancer_site) +
+  geom_density()
+```
+
+```{r}
+region %>%
+  ggplot() +
+  aes(x = year, y = cancer_site, fill = age_groups) +
+  geom_area() +
+  scale_x_continuous(breaks = seq(from = 1994, to = 2018, by = 2))
+```
+

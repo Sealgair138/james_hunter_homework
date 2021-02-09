@@ -1,0 +1,102 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+#load librarys and read in data, inspect the data
+```{r}
+library(tsibbledata)
+library(tidyverse)
+library(dplyr)
+library(lubridate)
+library(tsibble)
+library(slider)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(rgeos)
+library(leaflet)
+library(RCurl)
+library(jsonlite)
+
+nyc_bikes_df <- nyc_bikes
+nyc_bikes_df
+```
+#add extra columns for day, month, year and trip length
+```{r}
+nyc_bikes_df <- nyc_bikes_df %>% 
+  mutate(
+    start_day = yday(start_time),
+    start_month = month(start_time),
+    start_year = year(start_time),
+    trip_length = stop_time - start_time
+  )
+
+nyc_bikes_df
+```
+
+# mean trip length per day 
+```{r}
+avg_trip_nyc_bikes <- nyc_bikes_df %>% 
+  index_by(start_day) %>% 
+  summarise(
+    over_day = mean(trip_length)
+  )
+```
+
+```{r}
+avg_trip_nyc_bikes %>% 
+ggplot() +
+  aes(x = start_day, y = over_day) +
+  geom_line()
+
+```
+
+# line graph showing number of customers and subscribers over the span of a year. Note substantially more subscribers than customers. also a large spike in use over the summer time.
+```{r}
+bike_rentals_over_year<- nyc_bikes %>%
+  mutate(time_span = date(start_time), 
+         bike_id_new = as.character(bike_id)) %>%
+  index_by(time_span) %>%
+  group_by(type) %>%
+  summarise(count = n())
+ggplot(bike_rentals_over_year) + 
+  aes(x = time_span, y = count, group = type, color = type) + 
+  geom_line()
+
+bike_rentals_over_year
+```
+
+# mix of genders hiring over a year, males rent much more often than females
+```{r}
+gender_bikes <- nyc_bikes %>%
+  mutate(time_span = date(start_time), 
+         bike_id_new = as.character(bike_id)) %>%
+  index_by(time_span) %>%
+  group_by(gender) %>%
+  summarise(count = n())
+ggplot(gender_bikes) + 
+  aes(x = time_span, y = count, group = gender, color = gender) + 
+  geom_line()
+
+```
+
+# location 
+```{r}
+nyc_bike_map <- nyc_bikes %>% 
+  leaflet() %>% 
+  addTiles() %>% 
+  addMarkers(lng = ~ start_long, 
+             lat = ~ start_lat,
+             popup = ~ start_station)
+
+nyc_bike_map
+```
+
+```{r}
+ggplot(nyc_bikes) +
+  geom_sf(aes(fill = bike_id)) +
+  scale_fill_viridis_c(option = "#56B4E9")
+```
+
+
