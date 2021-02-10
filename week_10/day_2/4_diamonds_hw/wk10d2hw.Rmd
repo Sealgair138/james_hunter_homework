@@ -1,0 +1,128 @@
+---
+title: "Diamonds are Forever"
+output: html_notebook
+---
+
+```{r}
+library(ggfortify)
+library(mosaic)
+library(mosaicData)
+library(tidyverse)
+library(janitor)
+library(GGally)
+```
+# Load the diamonds.csv data set and undertake an initial exploration of the data. You will find a description of the meanings of the variables on the relevant Kaggle page
+
+```{r}
+diamonds <- read_csv("diamonds.csv") %>% clean_names()
+
+head(diamonds)
+```
+
+
+We expect the carat of the diamonds to be strong correlated with the physical dimensions x, y and z. Use ggpairs() to investigate correlations between these four variables.
+
+```{r}
+alias(lm(carat ~ ., data = diamonds))
+
+?ggpairs
+```
+
+```{r}
+ggpairs(diamonds, proportions = "auto") # large black unreadable smudge alert
+```
+```{r}
+model1 <- lm(carat ~ x + y + z, data = diamonds)
+
+autoplot(model1)
+```
+
+
+So, we do find significant correlations. Let’s drop columns x, y and z from the dataset, in preparation to use only carat going forward.
+
+```{r}
+diamonds_trim <- diamonds %>% 
+  select(carat, cut, color, clarity, depth, table, price)
+
+head(diamonds_trim)
+```
+
+#We are interested in developing a regression model for the price of a diamond in terms of the possible predictor variables in the dataset.
+  #Use ggpairs() to investigate correlations between price and the predictors (this may take a while to run, don’t worry, make coffee or something).
+  #Perform further ggplot visualisations of any significant correlations you find.
+
+```{r}
+ggpairs(diamonds_trim)
+```
+```{r}
+model2 <- lm(price ~  + carat, data = diamonds_trim)
+
+autoplot(model2)
+plotModel(model2)
+
+summary(model2)
+```
+```{r}
+model3 <- lm(price ~ + carat + cut, data = diamonds_trim)
+
+autoplot(model3)
+plotModel(model3)
+
+summary(model3)
+```
+
+```{r}
+model4 <- lm(price ~  + carat + cut + color, data = diamonds_trim)
+
+autoplot(model4)
+plotModel(model4)
+
+summary(model4)
+```
+
+```{r}
+model5 <- lm(price ~  + carat + cut + color, data = diamonds_trim)
+
+autoplot(model5)
+plotModel(model5)
+
+summary(model5)
+```
+
+```{r}
+model6 <- lm(price ~  + carat + cut + color + clarity, data = diamonds_trim)
+
+autoplot(model6)
+plotModel(model6)
+
+summary(model6)
+```
+
+```{r}
+model7 <- lm(price ~  + carat + cut + color + clarity + depth, data = diamonds_trim)
+
+autoplot(model7)
+plotModel(model7)
+
+summary(model7)
+```
+
+```{r}
+model8 <- lm(price ~  + carat + cut + color + clarity + depth + table, data = diamonds_trim)
+
+autoplot(model8)
+plotModel(model8)
+
+summary(model8)
+```
+
+
+Shortly we may try a regression fit using one or more of the categorical predictors cut, clarity and color, so let’s investigate these predictors:
+
+Investigate the factor levels of these predictors. How many dummy variables do you expect for each of them?
+
+Use the dummy_cols() function in the fastDummies package to generate dummies for these predictors and check the number of dummies in each case.
+
+
+
+  
