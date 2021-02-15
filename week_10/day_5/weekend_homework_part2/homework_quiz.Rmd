@@ -93,6 +93,6 @@ easy documentation
 
 16. Why is it important to document the modelling rationale and approach?
 
-so that it can be investigated by an oversight if necesary
+so that it can be investigated by an oversight if necesary.
 
 
