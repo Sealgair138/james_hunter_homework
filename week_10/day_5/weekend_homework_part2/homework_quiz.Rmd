@@ -1,0 +1,98 @@
+---
+title: "Homework Quiz"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+    css: ../../../../styles.css
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. I want to predict how well 6 year-olds are going to do in their final school exams. Using the following variables am I likely under-fitting, fitting well or over-fitting? Postcode, gender, reading level, score in maths test, date of birth, family income.
+
+over-fitting, some of the variables can be dropped such as gender, date of birth (theyre all 6), family income too. Though 6 year olds dont take exams.
+
+
+2. If I have two models, one with an AIC score of 34,902 and the other with an AIC score of 33,559 which model should I use?
+
+34902, its lower.
+
+3. I have two models, the first with: r-squared: 0.44, adjusted r-squared: 0.43. The second with: r-squared: 0.47, adjusted r-squared: 0.41. Which one should I use?
+
+0.43 is the better fit, though none of these models should be used as theyre too low.
+
+
+4. I have a model with the following errors: RMSE error on test set: 10.3, RMSE error on training data: 10.4. Do you think this model is over-fitting?
+
+no
+
+
+5. How does k-fold validation work?
+
+splits the data set into equal segments, use one segment as a control. Trys to fit the models on the remaining segments, and calcualte the mean squared error on the control segment. Repaeat the process with different control segments working out an average on the MSE from the control segments.
+
+
+6. What is a validation set? When do you need one?
+
+a validation set is used to compare the test model, but isnt used to train it. you need one when you think youre over fitting
+
+
+7. Describe how backwards selection works.
+
+you test the model using all predictors, then remove them one by one to find which ones lower the r2 the least when removed.
+
+
+
+8. Describe how best subset selection works.
+
+subset selection works by finding all possible combinations of predictors to find the best fitting model.
+
+
+9. It is estimated on 5% of model projects end up being deployed. What actions can you take to maximise the likelihood of your model being deployed?
+
+make sure it works on new/up-to-date data, have all documentation, support it after deployment. are there any disallowed variables in the model?
+
+
+10. What metric could you use to confirm that the recent population is similar to the development population?
+
+PSI
+
+
+11. How is the Population Stability Index defined? What does this mean in words?
+
+PSI=∑((Actual%−Expected%)×ln(Actual%Expected%))
+
+compares the distribution of variable in a data set to a training data set that was used to develop the model.
+
+
+12. Above what PSI value might we need to start to consider rebuilding or recalibrating the model
+
+0.2
+
+
+13. What are the common errors that can crop up when implementing a model?
+
+model working incorrectly with the data on the deployed system, 
+
+
+14. After performance monitoring, if we find that the discrimination is still satisfactory but the accuracy has deteriorated, what is the recommended action?
+
+relcalibrate
+
+
+15. Why is it important to have a unique model identifier for each model?
+
+easy documentation
+
+
+16. Why is it important to document the modelling rationale and approach?
+
+so that it can be investigated by an oversight if necesary
+
+

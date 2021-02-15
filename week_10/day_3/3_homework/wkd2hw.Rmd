@@ -1,0 +1,62 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(GGally)
+library(modelr)
+```
+
+```{r}
+kc_house <- read_csv("data/kc_house_data.csv")
+```
+
+```{r}
+head(kc_house)
+```
+trim the data
+```{r}
+kc_house <- kc_house %>%
+  select("price", "bedrooms", "bathrooms", "floors", "waterfront", "view", "view", "grade", "sqft_above", "sqft_basement", "yr_built", "yr_renovated", "condition")
+```
+ 
+tidy the data
+```{r}
+kc_house <- kc_house %>% 
+  mutate(waterfront = as.logical(waterfront)) %>% 
+  mutate(condition = as_factor(condition)) %>% 
+  mutate(grade = as_factor(grade))
+
+kc_house
+```
+
+```{r}
+alias(price ~ ., data = kc_house)
+```
+ 
+```{r}
+houses_numeric <- kc_house%>%
+  select_if(is.numeric)
+
+houses_nonnumeric <- kc_house %>%
+  select_if(function(x) !is.numeric(x))
+
+houses_nonnumeric$price <- kc_house$price
+
+ggpairs(houses_numeric)
+ggpairs(houses_nonnumeric)
+```
+price+bathroom, price+sq-above, bathrooms+sq-above,  
+ 
+```{r}
+
+```
+
+```{r}
+mod1a <- lm(price ~ sqft_above, data = kc_house)
+summary(mod1a)
+```
+ 
+ 
